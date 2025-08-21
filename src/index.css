@@ -8,35 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cosmic Galaxy Theme */
+    --background: 230 35% 7%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 230 35% 9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 230 35% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 280 100% 70%;
+    --primary-foreground: 230 35% 7%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 200 100% 60%;
+    --secondary-foreground: 230 35% 7%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 230 25% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 320 100% 75%;
+    --accent-foreground: 230 35% 7%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 230 25% 20%;
+    --input: 230 25% 15%;
+    --ring: 280 100% 70%;
 
-    --radius: 0.5rem;
+    /* Cosmic Design Tokens */
+    --cosmic-deep: 230 35% 7%;
+    --cosmic-mid: 230 35% 12%;
+    --cosmic-surface: 230 25% 18%;
+    
+    --neon-pink: 320 100% 75%;
+    --neon-blue: 200 100% 70%;
+    --neon-purple: 280 100% 70%;
+    --electric-cyan: 180 100% 70%;
+    
+    --glow-pink: 320 100% 75% / 0.5;
+    --glow-blue: 200 100% 70% / 0.5;
+    --glow-purple: 280 100% 70% / 0.5;
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +115,125 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+    font-family: 'Playfair Display', 'Lora', serif;
+  }
+  
+  /* Starfield Background */
+  .starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, hsl(230 35% 12%) 0%, hsl(230 35% 7%) 100%);
+    z-index: -1;
+  }
+  
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite ease-in-out alternate;
+  }
+  
+  /* Cosmic Gradients */
+  .cosmic-gradient {
+    background: linear-gradient(135deg, 
+      hsl(var(--cosmic-deep)) 0%,
+      hsl(var(--cosmic-mid)) 50%,
+      hsl(var(--cosmic-surface)) 100%);
+  }
+  
+  .nebula-gradient {
+    background: radial-gradient(ellipse at center,
+      hsl(var(--neon-purple) / 0.2) 0%,
+      hsl(var(--neon-pink) / 0.1) 30%,
+      transparent 70%);
+  }
+  
+  /* Glow Effects */
+  .neon-glow {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.5),
+      0 0 40px hsl(var(--primary) / 0.3),
+      0 0 80px hsl(var(--primary) / 0.1);
+  }
+  
+  .text-glow {
+    text-shadow: 
+      0 0 10px hsl(var(--primary) / 0.8),
+      0 0 20px hsl(var(--primary) / 0.6),
+      0 0 40px hsl(var(--primary) / 0.4);
+  }
+  
+  /* Interactive Elements */
+  .cosmic-card {
+    background: linear-gradient(145deg, 
+      hsl(var(--card) / 0.8) 0%,
+      hsl(var(--cosmic-surface) / 0.6) 100%);
+    border: 1px solid hsl(var(--border));
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+  }
+  
+  .cosmic-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 20px 40px hsl(var(--primary) / 0.3),
+      0 0 60px hsl(var(--primary) / 0.2);
+    border-color: hsl(var(--primary) / 0.8);
+  }
+  
+  /* Map State Hover Effects */
+  .map-state {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .map-state:hover {
+    filter: drop-shadow(0 0 15px hsl(var(--primary)));
+    transform: scale(1.05);
+  }
+  
+  .map-state.active {
+    filter: drop-shadow(0 0 25px hsl(var(--accent)));
+    animation: pulse-glow 2s infinite;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 15px hsl(var(--primary)));
+  }
+  50% { 
+    filter: drop-shadow(0 0 30px hsl(var(--accent)));
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes particle-burst {
+  0% { transform: scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(2) rotate(360deg); opacity: 0; }
+}
+
+@keyframes fade-slide-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
   }
 }
